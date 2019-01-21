@@ -8,6 +8,7 @@ const rentalRoutes = require('./routes/rentals');
 mongoose.connect(config.DB_URI, { useNewUrlParser: true }).then(() => {
 	const fakeDb = new FakeDb();
 	fakeDb.seedDb();
+	console.log('mlab connected');
 });
 
 const app = express();
@@ -17,5 +18,5 @@ app.use('/api/v1/rentals', rentalRoutes);
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, function() {
-	console.log('I am running');
+	console.log('server running');
 });
