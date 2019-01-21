@@ -6,25 +6,25 @@ import * as actions from 'actions';
 
 class RentalListing extends React.Component {
 
-	//componentWillMount() {
-	UNSAFE_componentWillMount() {
-		this.props.dispatch(actions.fetchRentals());
-	}
+  //componentWillMount() {
+  UNSAFE_componentWillMount() {
+    this.props.dispatch(actions.fetchRentals());
+  }
 
-	render() {
-		return (
-			<section id="rentalListing">
-				<h1 className="page-title">Your Home All Around the World</h1>
-				<RentalList rentals={ this.props.rentals } />
-			</section>
-		);  ///
-	}
+  render() {
+    return (
+      <section id="rentalListing">
+        <h1 className="page-title">Your Home All Around the World</h1>
+        <RentalList rentals={ this.props.rentals } />
+      </section>
+    );
+  }
 }
 
 function mapStateToProps(state) {
-	return {
-		rentals: state.rentals.data
-	}
+  return {
+    rentals: state.rentals.data
+  }
 }
 
 export default connect(mapStateToProps)(RentalListing)
