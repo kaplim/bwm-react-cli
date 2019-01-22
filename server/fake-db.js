@@ -1,4 +1,5 @@
 const Rental = require('./models/rental');
+const User = require('./models/user');
 
 class FakeDb {
 
@@ -17,7 +18,7 @@ class FakeDb {
 			{
 			title: "Modern apartment in center",
 			city: "New York",
-			street: "Time Square",
+			street: "1211 Avenue of the Americas",
 			category: "apartment",
 			image: "https://booksync-jerga-prod.s3.amazonaws.com/uploads/rental/image/5/image.jpeg",
 			bedrooms: 1,
@@ -35,23 +36,37 @@ class FakeDb {
 			shared: true,
 			description: "Very nice apartment in center of the city.",
 			dailyRate: 23
-		}]
+		}];
+
+		this.users = [{
+			username: "Test User",
+			email: "test@gmail.com",
+			password: "test123"
+		}];
 	}
 
 	async cleanDb() {
 		await Rental.deleteMany({});  //remove({});
+		await User.deleteMany({});
 	}
 
-	pushRentalsToDb() {
+	pushDataToDb() {
+		const user = new User(this.users[0]);
+
 		this.rentals.forEach((rental) => {
 			const newRental = new Rental(rental);
+			newRental.user = user;
+
+			user.rentals.push(newRental);
 			newRental.save();
 		});
+
+		user.save();
 	}
 
-	seedDb() {
-		this.cleanDb();
-		this.pushRentalsToDb();
+	async seedDb() {
+		await this.cleanDb();
+		this.pushDataToDb();
 	}
 }
 
