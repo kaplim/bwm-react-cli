@@ -3,7 +3,7 @@ import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker,
+  //Marker,
   Circle,
   InfoWindow
 } from "react-google-maps";
