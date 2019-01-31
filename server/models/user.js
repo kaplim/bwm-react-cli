@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');  //require('bcryptjs');
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -23,7 +23,8 @@ const userSchema = new Schema({
 		max: [32, 'Too long. Max is 32 characters.'],
 		required: 'Password is required'
 	},
-	rentals: [ { type: Schema.Types.ObjectId, ref: 'Rental' } ]
+	rentals: [ { type: Schema.Types.ObjectId, ref: 'Rental' } ],
+	bookings: [{ type: Schema.Types.ObjectId, ref: 'Booking' }]
 }); //, { collection: 'new_name' });
 
 userSchema.methods.hasSamePassword = function(requestedPassword) {
