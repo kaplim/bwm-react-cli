@@ -51,7 +51,7 @@ export const fetchRentalById = (rentalId) => {
 }
 
 export const register = (userData) => {
-	return axios.post('/api/v1/users/register', {...userData}).then(
+	return axios.post('/api/v1/users/register', userData).then(
 		(res) => {
 			//console.log(res.data);
 			return res.data;
@@ -86,7 +86,7 @@ export const checkAuthState = () => {
 
 export const login = (userData) => {
 	return dispatch => {
-		return axios.post('/api/v1/users/auth', {...userData})
+		return axios.post('/api/v1/users/auth', userData)
 			.then(res => res.data)
 			.then(token => {
 				//console.log('auth_token', token)
@@ -106,4 +106,16 @@ export const logout = () => {
 	return {
 		type: LOGOUT
 	}
+}
+
+export const createBooking = (booking) => {
+	return axiosInstance.post('/bookings', booking).then(
+		(res) => {
+			return res.data;
+		},
+		// (err) => {
+		// 	Promise.reject(err.response.data.errors);
+		({response}) => {
+			return Promise.reject(response.data.errors);
+		});
 }

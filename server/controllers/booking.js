@@ -15,10 +15,12 @@ exports.createBooking = function(req, res) {
 		.populate('user')
 		.exec(function(err, foundRental) {
 			if (err) {
+				console.log('err');
 				return res.status(422).send({
 					errors: normalizeErrors(err.errors)
 				});
 			}
+
 			if (foundRental.user.id === user.id) {
 				return res.status(422).send({ errors: [{
 					title: 'Invalid user',
