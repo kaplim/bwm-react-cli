@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function BwmResError(props) {
+export default function BwmResError(props) {
 	const errors = props.errors;
 
 	return (

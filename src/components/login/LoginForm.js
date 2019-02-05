@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
 import { BwmInput } from 'components/shared/form/BwmInput';
-import { BwmResError } from 'components/shared/form/BwmResError';
+import BwmResError from 'components/shared/form/BwmResError';
 import { required, minLength4 } from 'components/shared/form/validators';
 
 const LoginForm = props => {

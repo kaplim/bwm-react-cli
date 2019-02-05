@@ -5,6 +5,7 @@ import * as actions from 'actions';
 
 import { RentalDetailInfo } from './RentalDetailInfo';
 import { RentalMap } from './RentalMap';
+import { Booking } from 'components/booking/Booking';
 
 class RentalDetail extends React.Component {
 	
@@ -38,7 +39,9 @@ class RentalDetail extends React.Component {
 							<div className='col-md-8'>
 								<RentalDetailInfo rental={ rental }/>
 							</div>
-							<div className='col-md-4'> BOOKING</div>
+							<div className='col-md-4'>
+								<Booking rental={ rental } />
+							</div>
 						</div>
 					</div>
 				</section>
