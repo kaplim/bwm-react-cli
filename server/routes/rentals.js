@@ -10,6 +10,22 @@ router.get('/secret', UserCtrl.authMiddleware, function(req, res) {
 	res.json({"secret": true});
 });
 
+router.get('/manage', UserCtrl.authMiddleware, function(req, res) {
+	const user = res.locals.user;
+
+	Rental.where({ user })
+		.populate('bookings')
+		.exec(function(err, foundRentals) {
+			if (err) {
+				return res.status(422).send({
+					errors: normalizeErrors(err.errors)
+				});
+			}
+
+			return res.json(foundRentals);
+		});
+});
+
 router.get('/:id', function(req, res) {
 	const rentalId = req.params.id;
 
@@ -27,11 +43,51 @@ router.get('/:id', function(req, res) {
 		});
 });
 
+router.delete('/:id', UserCtrl.authMiddleware, function(req, res) {
+	const user = res.locals.user;
+
+	Rental.findById(req.params.id)
+		.populate('user', '_id')
+		.populate({
+			path: 'bookings',
+			select: 'startAt',
+			match: { startAt: { $gt: new Date() } }
+		})
+		.exec(function(err, foundRental) {
+			if (err) {
+				return res.status(422).send({
+					errors: normalizeErrors(err.errors)
+				});
+			}
+			if (user.id !== foundRental.user.id) {
+				return res.status(422).send({ errors: [{
+					title: 'Invalid user',
+					detail: 'You are not the rental owner.'
+				}]});
+			}
+			if (foundRental.bookings.length > 0) {
+				return res.status(422).send({ errors: [{
+					title: 'Active bookings',
+					detail: 'Cannot delete rental with active booking.'
+				}]});
+			}
+			foundRental.remove(function(err) {  //deleteOne()
+				if (err) {
+					return res.status(422).send({
+						errors: normalizeErrors(err.errors)
+					});
+				}
+
+				return res.json({ 'status': 'deleted' });
+			});
+		});
+});
+
 router.post('', UserCtrl.authMiddleware, function(req, res) {
 	const { title, city, street, category, image, shared, bedrooms,
 		description, dailyRate } = req.body;
 	const user = res.locals.user;
-	
+
 	const rental = new Rental({ title, city, street, category, image,
 		shared, bedrooms, description, dailyRate });
 	rental.user = user;
