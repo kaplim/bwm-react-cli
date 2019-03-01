@@ -1,11 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { MapWithGeocode } from 'components/map/GoogleMap';
 
-export class RentalMap extends React.Component {
+import * as actions from 'actions';
+
+class RentalMap extends React.Component {
+
+	reloadMapFinish() {
+		this.props.dispatch(actions.reloadMapFinish());
+	}
 
 	render() {
-		const location = this.props.location;
+		const { location, map: { isReloading } } = this.props;
 		//console.log(location);
 
 		return(
@@ -19,7 +26,17 @@ export class RentalMap extends React.Component {
 				mapElement=
 				{<div style={{ height: `100%` }} />}
 				location={ location }
+				isReloading={ isReloading }
+				mapLoaded={ () => this.reloadMapFinish() }
 			/>
 		);
 	}
 }
+
+function mapStateToProps(state) {
+	return {
+		map: state.map
+	}
+}
+
+export default connect(mapStateToProps)(RentalMap)
