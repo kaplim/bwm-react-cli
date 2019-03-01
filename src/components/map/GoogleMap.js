@@ -55,7 +55,15 @@ function withGeocode(WrappedComponent) {
       this.getGeocodedLocation();
     }
 
+    componentDidUpdate() {
+      if (this.props.isReloading) {
+        this.getGeocodedLocation();
+      }
+    }
+    
     updateCoordinates(coordinates) {
+      this.props.mapLoaded();
+
       this.setState({
         coordinates,
         isLocationLoaded: true
@@ -99,6 +107,8 @@ function withGeocode(WrappedComponent) {
             // For testing, use hard-coded coordinates:
             //const coordinates = { lat: 37.7749, lng: -122.4194 };  // San Francisco
             //this.setState({ coordinates, isError: false, isLocationLoaded: true });
+
+            this.props.mapLoaded();
             
             this.setState({ isError: true, isLocationLoaded: true });
           });
