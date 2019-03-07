@@ -58,7 +58,7 @@ export class RentalManageCard extends React.Component {
 									Delete
 								</button>
 								<Link className="btn btn-warning"
-									to={ {pathname: `/rentals/${rental._id}`,
+									to={ {pathname: `/rentals/${rental._id}/edit`,
 									state: {isUpdate: true} } }>
 									Edit
 								</Link>
