@@ -8,6 +8,7 @@ import RentalListing from 'components/rental/rental-listing/RentalListing';
 import RentalListingSearch from
 	'components/rental/rental-listing/RentalListingSearch';
 import RentalDetail from 'components/rental/rental-detail/RentalDetail';
+import RentalUpdate from 'components/rental/rental-detail/RentalUpdate';
 import { RentalCreate } from 'components/rental/rental-create/RentalCreate';
 import Login from 'components/login/Login';
 import { Register } from 'components/register/Register';
@@ -63,6 +64,8 @@ class App extends Component {
 									component={ RentalCreate }/>
 								<Route exact path="/rentals/:id"
 									component={ RentalDetail }/>
+								<Route exact path="/rentals/:id/edit"
+									component={ RentalUpdate }/>
 								
 								<Route exact path="/login"
 									component={ Login }/>
